@@ -19,11 +19,10 @@
 
 package dev.hytalemodding.api.transfer.v1.transaction;
 
-import org.jetbrains.annotations.ApiStatus;
-import org.jspecify.annotations.Nullable;
-
 import dev.hytalemodding.api.transfer.v1.transaction.base.SnapshotParticipant;
 import dev.hytalemodding.impl.transfer.transaction.TransactionManagerImpl;
+
+import javax.annotation.Nullable;
 
 /**
  * A global operation where participants guarantee atomicity: either the whole operation succeeds,
@@ -77,7 +76,6 @@ import dev.hytalemodding.impl.transfer.transaction.TransactionManagerImpl;
  * and attempts to use it on another thread will throw an exception.
  * Consequently, transactions can be concurrent across multiple threads, as long as they don't share any state.
  */
-@ApiStatus.NonExtendable
 public interface Transaction extends AutoCloseable, TransactionContext {
 	/**
 	 * Open a new outer transaction.

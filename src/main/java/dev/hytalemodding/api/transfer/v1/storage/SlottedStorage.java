@@ -21,8 +21,6 @@ package dev.hytalemodding.api.transfer.v1.storage;
 
 import java.util.List;
 
-import org.jetbrains.annotations.UnmodifiableView;
-
 import dev.hytalemodding.api.transfer.v1.storage.base.SingleSlotStorage;
 import dev.hytalemodding.impl.transfer.TransferApiImpl;
 
@@ -63,7 +61,6 @@ public interface SlottedStorage<T> extends Storage<T> {
      *
      * @return An unmodifiable view over all the slots in this storage.
      */
-    @UnmodifiableView
     default List<SingleSlotStorage<T>> getSlots() {
         return TransferApiImpl.makeListView(this);
     }

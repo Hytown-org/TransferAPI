@@ -1,8 +1,8 @@
 package dev.hytalemodding.api.transfer.v1.transaction.types;
 
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 /**
@@ -16,12 +16,12 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      *
      * @param startingValue Initial backing list.
      */
-    public TransactionalList(@NotNull List<T> startingValue) {
+    public TransactionalList(@Nonnull List<T> startingValue) {
         super(startingValue);
     }
 
     @Override
-    protected @NotNull List<T> createSnapshot() {
+    protected @Nonnull List<T> createSnapshot() {
         // Since List<T> is mutable, we must return a clone, or at least a new list
         return new ArrayList<>(value);
     }
@@ -33,7 +33,7 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      * @param transaction The transaction to use.
      * @return true if the list changed as a result of the call.
      */
-    public boolean add(T t, @NotNull TransactionContext transaction) {
+    public boolean add(T t, @Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         return value.add(t);
     }
@@ -45,7 +45,7 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      * @param transaction the transaction to use
      * @return true if the list contained the specified element
      */
-    public boolean remove(T o, @NotNull TransactionContext transaction) {
+    public boolean remove(T o, @Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         return value.remove(o);
     }
@@ -58,7 +58,7 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      * @param transaction transaction to use
      * @return true if the list changed as a result
      */
-    public boolean addAll(@NotNull Collection<? extends T> c, @NotNull TransactionContext transaction) {
+    public boolean addAll(@Nonnull Collection<? extends T> c, @Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         return value.addAll(c);
     }
@@ -71,7 +71,7 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      * @param transaction transaction to use
      * @return true if the list changed as a result
      */
-    public boolean addAll(int index, @NotNull Collection<? extends T> c, @NotNull TransactionContext transaction) {
+    public boolean addAll(int index, @Nonnull Collection<? extends T> c, @Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         return value.addAll(index, c);
     }
@@ -83,7 +83,7 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      * @param transaction transaction to use
      * @return true if the list changed as a result
      */
-    public boolean removeAll(@NotNull Collection<? extends T> c, @NotNull TransactionContext transaction) {
+    public boolean removeAll(@Nonnull Collection<? extends T> c, @Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         return value.removeAll(c);
     }
@@ -95,7 +95,7 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      * @param transaction transaction to use
      * @return true if the list changed as a result
      */
-    public boolean retainAll(@NotNull Collection<? extends T> c, @NotNull TransactionContext transaction) {
+    public boolean retainAll(@Nonnull Collection<? extends T> c, @Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         return value.retainAll(c);
     }
@@ -105,7 +105,7 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      *
      * @param transaction transaction to use
      */
-    public void clear(@NotNull TransactionContext transaction) {
+    public void clear(@Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         value.clear();
     }
@@ -118,7 +118,7 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      * @param transaction transaction to use
      * @return the element previously at the specified position
      */
-    public T set(int index, T element, @NotNull TransactionContext transaction) {
+    public T set(int index, T element, @Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         return value.set(index, element);
     }
@@ -130,7 +130,7 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      * @param element element to insert
      * @param transaction transaction to use
      */
-    public void add(int index, T element, @NotNull TransactionContext transaction) {
+    public void add(int index, T element, @Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         value.add(index, element);
     }
@@ -142,7 +142,7 @@ public class TransactionalList<T> extends TransactionalValue<List<T>> {
      * @param transaction transaction to use
      * @return the element previously at the specified position
      */
-    public T remove(int index, @NotNull TransactionContext transaction) {
+    public T remove(int index, @Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         return value.remove(index);
     }

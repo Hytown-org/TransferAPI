@@ -25,7 +25,8 @@ import java.util.Iterator;
 import dev.hytalemodding.api.transfer.v1.storage.Storage;
 import dev.hytalemodding.api.transfer.v1.storage.StorageView;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * A {@link Storage} that supports insertion, and not extraction. By default, it doesn't have any storage view either.
@@ -39,12 +40,12 @@ public interface InsertionOnlyStorage<T> extends Storage<T> {
 	}
 
 	@Override
-	default long extract(T resource, long maxAmount, @NotNull TransactionContext transaction) {
+	default long extract(T resource, long maxAmount, @Nonnull TransactionContext transaction) {
 		return 0;
 	}
 
-	@Override
-	default @NotNull Iterator<StorageView<T>> iterator() {
+    @Override
+	default @Nonnull Iterator<StorageView<T>> iterator() {
 		return Collections.emptyIterator();
 	}
 }

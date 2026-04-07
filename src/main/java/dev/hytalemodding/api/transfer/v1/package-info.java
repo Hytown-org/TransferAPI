@@ -71,7 +71,4 @@
  * that allows the returned APIs to interact with the containing inventory.
  * Notably, it is used by the {@code FluidStorage.ITEM} lookup for fluid-containing items.
  */
-@NullMarked
 package dev.hytalemodding.api.transfer.v1;
-
-import org.jspecify.annotations.NullMarked;

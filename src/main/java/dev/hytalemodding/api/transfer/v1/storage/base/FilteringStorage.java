@@ -22,12 +22,11 @@ package dev.hytalemodding.api.transfer.v1.storage.base;
 import java.util.Iterator;
 import java.util.function.Supplier;
 
-import com.google.common.collect.Iterators;
-
 import dev.hytalemodding.api.transfer.v1.storage.Storage;
 import dev.hytalemodding.api.transfer.v1.storage.StorageView;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * A base {@link Storage} implementation that delegates every call to another storage,
@@ -190,7 +189,7 @@ public abstract class FilteringStorage<T> implements Storage<T> {
 	}
 
 	@Override
-	public long insert(T resource, long maxAmount, @NotNull TransactionContext transaction) {
+	public long insert(T resource, long maxAmount, @Nonnull TransactionContext transaction) {
 		if (canInsert(resource)) {
 			return backingStorage.get().insert(resource, maxAmount, transaction);
 		} else {
@@ -204,7 +203,7 @@ public abstract class FilteringStorage<T> implements Storage<T> {
 	}
 
 	@Override
-	public long extract(T resource, long maxAmount, @NotNull TransactionContext transaction) {
+	public long extract(T resource, long maxAmount, @Nonnull TransactionContext transaction) {
 		if (canExtract(resource)) {
 			return backingStorage.get().extract(resource, maxAmount, transaction);
 		} else {
@@ -212,10 +211,22 @@ public abstract class FilteringStorage<T> implements Storage<T> {
 		}
 	}
 
-	@Override
-	public @NotNull Iterator<StorageView<T>> iterator() {
-		return Iterators.transform(backingStorage.get().iterator(), FilteringStorageView::new);
-	}
+    @Override
+    public @Nonnull Iterator<StorageView<T>> iterator() {
+        Iterator<StorageView<T>> base = backingStorage.get().iterator();
+
+        return new Iterator<>() {
+            @Override
+            public boolean hasNext() {
+                return base.hasNext();
+            }
+
+            @Override
+            public StorageView<T> next() {
+                return new FilteringStorageView(base.next());
+            }
+        };
+    }
 
 	@Override
 	public long getVersion() {
@@ -238,7 +249,7 @@ public abstract class FilteringStorage<T> implements Storage<T> {
 		}
 
 		@Override
-		public long extract(T resource, long maxAmount, @NotNull TransactionContext transaction) {
+		public long extract(T resource, long maxAmount, @Nonnull TransactionContext transaction) {
 			if (canExtract(resource)) {
 				return backingView.extract(resource, maxAmount, transaction);
 			} else {

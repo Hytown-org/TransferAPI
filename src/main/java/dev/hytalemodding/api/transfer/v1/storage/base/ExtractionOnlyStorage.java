@@ -21,7 +21,8 @@ package dev.hytalemodding.api.transfer.v1.storage.base;
 
 import dev.hytalemodding.api.transfer.v1.storage.Storage;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * A {@link Storage} that supports extraction, and not insertion.
@@ -35,7 +36,7 @@ public interface ExtractionOnlyStorage<T> extends Storage<T> {
 	}
 
 	@Override
-	default long insert(T resource, long maxAmount, @NotNull TransactionContext transaction) {
+	default long insert(T resource, long maxAmount, @Nonnull TransactionContext transaction) {
 		return 0;
 	}
 }

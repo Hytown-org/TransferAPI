@@ -23,13 +23,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.Nullable;
-
 import dev.hytalemodding.api.transfer.v1.storage.base.ResourceAmount;
 import dev.hytalemodding.api.transfer.v1.storage.base.SingleSlotStorage;
 import dev.hytalemodding.api.transfer.v1.transaction.Transaction;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Helper functions to work with {@link Storage}s.
@@ -208,7 +208,7 @@ public final class StorageUtil {
      * @return A non-blank resource and the strictly positive amount of it that was extracted from the storage,
      * or {@code null} if none could be found.
      */
-    public static <T> @Nullable ResourceAmount<T> extractAny(@Nullable Storage<T> storage, long maxAmount, @NotNull TransactionContext transaction) {
+    public static <T> @Nullable ResourceAmount<T> extractAny(@Nullable Storage<T> storage, long maxAmount, @Nonnull TransactionContext transaction) {
         StoragePreconditions.notNegative(maxAmount);
 
         if (storage == null) return null;
@@ -245,7 +245,7 @@ public final class StorageUtil {
      * @return How much was inserted.
      * @see Storage#insert
      */
-    public static <T> long insertStacking(List<? extends SingleSlotStorage<T>> slots, T resource, long maxAmount, @NotNull TransactionContext transaction) {
+    public static <T> long insertStacking(List<? extends SingleSlotStorage<T>> slots, T resource, long maxAmount, @Nonnull TransactionContext transaction) {
         StoragePreconditions.notNegative(maxAmount);
         long amount = 0;
 
@@ -286,7 +286,7 @@ public final class StorageUtil {
      * @param transaction The transaction this operation is part of.
      * @return A nonnegative integer not greater than maxAmount: the amount that was inserted.
      */
-    public static <T> long tryInsertStacking(@Nullable Storage<T> storage, T resource, long maxAmount, @NotNull TransactionContext transaction) {
+    public static <T> long tryInsertStacking(@Nullable Storage<T> storage, T resource, long maxAmount, @Nonnull TransactionContext transaction) {
         StoragePreconditions.notNegative(maxAmount);
 
         try {

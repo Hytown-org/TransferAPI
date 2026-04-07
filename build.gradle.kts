@@ -1,30 +1,26 @@
-import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.api.tasks.javadoc.Javadoc
-import org.gradle.external.javadoc.StandardJavadocDocletOptions
-import org.jfrog.gradle.plugin.artifactory.dsl.ArtifactoryPluginConvention
-import org.jfrog.gradle.plugin.artifactory.task.ArtifactoryTask
 
 plugins {
     id("java")
     id("maven-publish")
-    id("com.jfrog.artifactory") version "6.0.0+"
 }
 
 group = "dev.hytalemodding"
-version = "0.1.0-SNAPSHOT"
+version = "0.1.1"
 
 var packageName = "transfer-api"
 var fullPackageName = "$group.$packageName"
 
 repositories {
+    maven("https://maven.hytale.com/release") { name = "hytale-release" }
     mavenCentral()
 }
 
 dependencies {
-    implementation("org.jetbrains:annotations:26.0.2-1")
-    implementation("org.slf4j:slf4j-api:2.0.17")
-    implementation("com.google.guava:guava:33.5.0-jre")
+    compileOnly("com.hypixel.hytale:Server:+")
 
+    testCompileOnly("com.hypixel.hytale:Server:+") {
+        exclude("*netty*")
+    }
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -66,46 +62,13 @@ publishing {
     repositories {
         // Publish to local maven repository by default; users can add other repositories later.
         mavenLocal()
-    }
-}
-
-
-configure<ArtifactoryPluginConvention> {
-    val hytaleModdingArtifactoryContextUrl = "https://maven.hytalemodding.dev/artifactory"
-    // Artifactory publishing configuration
-    val hytaleModdingArtifactoryUser: String? =
-        providers.gradleProperty("hytaleModdingArtifactoryUsername").getOrNull()
-            ?: System.getenv("HYTALE_MODDING_ARTIFACTORY_USERNAME")
-    val hytaleModdingArtifactoryPassword: String? =
-        providers.gradleProperty("hytaleModdingArtifactoryPassword").getOrNull()
-            ?: System.getenv("HYTALE_MODDING_ARTIFACTORY_PASSWORD")
-
-    val hytaleModdingPublishRepoKey = if (version.toString().endsWith("SNAPSHOT")) "snapshots" else "releases"
-    
-    setContextUrl(hytaleModdingArtifactoryContextUrl)
-
-    publish {
-        repository {
-            repoKey = hytaleModdingPublishRepoKey
-
-            // Use username/password authentication only (token support removed)
-            username = hytaleModdingArtifactoryUser
-            password = hytaleModdingArtifactoryPassword
-
-            // Use Maven layout (no need to call setMavenCompatible, handled by default)
-        }
-
-        defaults {
-            publications("mavenJava")
-            setPublishArtifacts(true)
-            setPublishPom(true)
-            // Do not publish Ivy descriptors
-            setPublishIvy(false)
+        maven {
+            url = uri(property("artifactFeedUrl") as String)
+            name = "potionlabs"
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
         }
     }
-}
-
-// Ensure the artifactoryPublish task picks up the Gradle publication
-tasks.named<ArtifactoryTask>("artifactoryPublish") {
-    publications(publishing.publications["mavenJava"])
 }

@@ -25,7 +25,8 @@ import java.util.Objects;
 
 import dev.hytalemodding.api.transfer.v1.transaction.Transaction;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * A base participant implementation that modifies itself during transactions,
@@ -77,7 +78,7 @@ public abstract class SnapshotParticipant<T> implements Transaction.CloseCallbac
 	 *
 	 * @return A non-null snapshot object that represents the current state of this participant.
 	 */
-	protected abstract @NotNull T createSnapshot();
+	protected abstract @Nonnull T createSnapshot();
 
 	/**
 	 * Roll back to a state previously created by {@link #createSnapshot}.
@@ -88,7 +89,7 @@ public abstract class SnapshotParticipant<T> implements Transaction.CloseCallbac
 	 *
 	 * @param snapshot The snapshot previously created by {@link #createSnapshot()}.
 	 */
-	protected abstract void readSnapshot(@NotNull T snapshot);
+	protected abstract void readSnapshot(@Nonnull T snapshot);
 
 	/**
 	 * Signals that the snapshot will not be used anymore, and is safe to cache for next calls to {@link #createSnapshot},
@@ -113,7 +114,7 @@ public abstract class SnapshotParticipant<T> implements Transaction.CloseCallbac
 	 *
 	 * @param transaction The transaction during which the state will change.
 	 */
-	public void updateSnapshots(@NotNull TransactionContext transaction) {
+	public void updateSnapshots(@Nonnull TransactionContext transaction) {
 		// Make sure we have enough storage for snapshots
 		while (snapshots.size() <= transaction.nestingDepth()) {
 			snapshots.add(null);
@@ -130,7 +131,7 @@ public abstract class SnapshotParticipant<T> implements Transaction.CloseCallbac
 	}
 
 	@Override
-	public void onClose(@NotNull TransactionContext transaction, Transaction.Result result) {
+	public void onClose(@Nonnull TransactionContext transaction, Transaction.Result result) {
 		// Get and remove the relevant snapshot.
 		T snapshot = snapshots.set(transaction.nestingDepth(), null);
 

@@ -21,7 +21,7 @@ package dev.hytalemodding.impl.transfer.transaction;
 
 import java.util.ArrayList;
 
-import org.jspecify.annotations.Nullable;
+import javax.annotation.Nullable;
 
 import dev.hytalemodding.api.transfer.v1.transaction.Transaction;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;

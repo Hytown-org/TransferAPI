@@ -20,7 +20,8 @@
 package dev.hytalemodding.api.transfer.v1.storage;
 
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * A view of a single stored resource in a {@link Storage}, for use with {@link Storage#iterator}.
@@ -36,7 +37,7 @@ public interface StorageView<T> {
      * @param transaction The transaction this operation is part of.
      * @return The amount that was extracted.
      */
-    long extract(T resource, long maxAmount, @NotNull TransactionContext transaction);
+    long extract(T resource, long maxAmount, @Nonnull TransactionContext transaction);
 
     /**
      * Return {@code true} if the {@link #getResource} contained in this storage view is blank, or {@code false} otherwise.

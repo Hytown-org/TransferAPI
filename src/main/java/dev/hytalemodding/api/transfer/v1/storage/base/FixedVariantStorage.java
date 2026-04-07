@@ -2,7 +2,8 @@ package dev.hytalemodding.api.transfer.v1.storage.base;
 
 import dev.hytalemodding.api.transfer.v1.storage.TransferVariant;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * A storage that can store a fixed transfer variant or be empty.
@@ -48,7 +49,7 @@ public abstract class FixedVariantStorage<T extends TransferVariant<?>> extends 
      * @param transaction transaction context
      * @return amount inserted
      */
-    public long insert(long maxAmount, @NotNull TransactionContext transaction) {
+    public long insert(long maxAmount, @Nonnull TransactionContext transaction) {
         return super.insert(getAllowedVariant(), maxAmount, transaction);
     }
 
@@ -59,7 +60,7 @@ public abstract class FixedVariantStorage<T extends TransferVariant<?>> extends 
      * @param transaction transaction context
      * @return amount extracted
      */
-    public long extract(long maxAmount, @NotNull TransactionContext transaction) {
+    public long extract(long maxAmount, @Nonnull TransactionContext transaction) {
         return super.extract(getAllowedVariant(), maxAmount, transaction);
     }
 }

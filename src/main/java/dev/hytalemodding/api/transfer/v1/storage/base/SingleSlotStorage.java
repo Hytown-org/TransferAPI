@@ -24,7 +24,8 @@ import java.util.Iterator;
 import dev.hytalemodding.api.transfer.v1.storage.SlottedStorage;
 import dev.hytalemodding.api.transfer.v1.storage.StorageView;
 import dev.hytalemodding.impl.transfer.TransferApiImpl;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * A storage that is also its only storage view.
@@ -33,8 +34,9 @@ import org.jetbrains.annotations.NotNull;
  * @param <T> The type of the stored resource.
  */
 public interface SingleSlotStorage<T> extends SlottedStorage<T>, StorageView<T> {
-	@Override
-	default @NotNull Iterator<StorageView<T>> iterator() {
+
+    @Override
+	default @Nonnull Iterator<StorageView<T>> iterator() {
 		return TransferApiImpl.singletonIterator(this);
 	}
 

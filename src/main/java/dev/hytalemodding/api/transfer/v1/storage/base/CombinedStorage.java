@@ -28,7 +28,8 @@ import dev.hytalemodding.api.transfer.v1.storage.Storage;
 import dev.hytalemodding.api.transfer.v1.storage.StoragePreconditions;
 import dev.hytalemodding.api.transfer.v1.storage.StorageView;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * A {@link Storage} wrapping multiple storages.
@@ -65,7 +66,7 @@ public class CombinedStorage<T, S extends Storage<T>> implements Storage<T> {
 	}
 
 	@Override
-	public long insert(T resource, long maxAmount, @NotNull TransactionContext transaction) {
+	public long insert(T resource, long maxAmount, @Nonnull TransactionContext transaction) {
 		StoragePreconditions.notNegative(maxAmount);
 		long amount = 0;
 
@@ -89,7 +90,7 @@ public class CombinedStorage<T, S extends Storage<T>> implements Storage<T> {
 	}
 
 	@Override
-	public long extract(T resource, long maxAmount, @NotNull TransactionContext transaction) {
+	public long extract(T resource, long maxAmount, @Nonnull TransactionContext transaction) {
 		StoragePreconditions.notNegative(maxAmount);
 		long amount = 0;
 
@@ -101,8 +102,8 @@ public class CombinedStorage<T, S extends Storage<T>> implements Storage<T> {
 		return amount;
 	}
 
-	@Override
-	public @NotNull Iterator<StorageView<T>> iterator() {
+    @Override
+	public @Nonnull Iterator<StorageView<T>> iterator() {
 		return new CombinedIterator();
 	}
 

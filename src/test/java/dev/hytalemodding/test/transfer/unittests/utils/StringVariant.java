@@ -1,8 +1,9 @@
 package dev.hytalemodding.test.transfer.unittests.utils;
 
 import dev.hytalemodding.api.transfer.v1.storage.TransferVariant;
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableType;
+
+import javax.annotation.Nullable;
 
 /**
  * An immutable association of a string.
@@ -12,8 +13,7 @@ import org.jetbrains.annotations.Nullable;
  * <p><b>String variants must always be compared with {@code equals}, never by reference!</b>
  * {@code hashCode} is guaranteed to be correct and constant time independently of the size of the components.
  */
-@ApiStatus.NonExtendable
-public interface StringVariant extends TransferVariant<@Nullable String> {
+public interface StringVariant extends TransferVariant<@NullableType String> {
     /**
      * Retrieve a blank StringVariant.
      */

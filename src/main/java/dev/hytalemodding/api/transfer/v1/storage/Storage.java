@@ -20,8 +20,7 @@
 package dev.hytalemodding.api.transfer.v1.storage;
 
 import java.util.Iterator;
-
-import com.google.common.collect.Iterators;
+import java.util.NoSuchElementException;
 
 import dev.hytalemodding.api.transfer.v1.storage.base.CombinedStorage;
 import dev.hytalemodding.api.transfer.v1.storage.base.ExtractionOnlyStorage;
@@ -30,7 +29,8 @@ import dev.hytalemodding.api.transfer.v1.storage.base.SingleVariantStorage;
 import dev.hytalemodding.api.transfer.v1.transaction.Transaction;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
 import dev.hytalemodding.impl.transfer.TransferApiImpl;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * An object that can store resources.
@@ -97,7 +97,7 @@ public interface Storage<T> extends Iterable<StorageView<T>> {
      * @param transaction The transaction this operation is part of.
      * @return A non-negative integer not greater than maxAmount: the amount that was inserted.
      */
-    long insert(T resource, long maxAmount, @NotNull TransactionContext transaction);
+    long insert(T resource, long maxAmount, @Nonnull TransactionContext transaction);
 
     /**
      * Return whether extraction may be supported by this storage.
@@ -119,7 +119,7 @@ public interface Storage<T> extends Iterable<StorageView<T>> {
      * @param transaction The transaction this operation is part of.
      * @return A non-negative integer not greater than maxAmount: the amount that was extracted.
      */
-    long extract(T resource, long maxAmount, @NotNull TransactionContext transaction);
+    long extract(T resource, long maxAmount, @Nonnull TransactionContext transaction);
 
     /**
      * Iterate through the contents of this storage.
@@ -139,7 +139,7 @@ public interface Storage<T> extends Iterable<StorageView<T>> {
      * @return An iterator over the contents of this storage. Calling remove on the iterator is not allowed.
      */
     @Override
-    @NotNull
+    @Nonnull
     Iterator<StorageView<T>> iterator();
 
     /**
@@ -159,7 +159,47 @@ public interface Storage<T> extends Iterable<StorageView<T>> {
      * @return An iterator over the non-empty views of this storage. Calling remove on the iterator is not allowed.
      */
     default Iterator<StorageView<T>> nonEmptyIterator() {
-        return Iterators.filter(iterator(), view -> view != null && view.getAmount() > 0 && !view.isResourceBlank());
+        Iterator<StorageView<T>> base = iterator();
+
+        return new Iterator<>() {
+            private StorageView<T> nextValid = null;
+            private boolean hasNextComputed = false;
+
+            private void computeNext() {
+                while (base.hasNext()) {
+                    StorageView<T> candidate = base.next();
+                    if (candidate != null &&
+                        candidate.getAmount() > 0 &&
+                        !candidate.isResourceBlank()) {
+
+                        nextValid = candidate;
+                        hasNextComputed = true;
+                        return;
+                    }
+                }
+                nextValid = null;
+                hasNextComputed = true;
+            }
+
+            @Override
+            public boolean hasNext() {
+                if (!hasNextComputed) {
+                    computeNext();
+                }
+                return nextValid != null;
+            }
+
+            @Override
+            public StorageView<T> next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                StorageView<T> result = nextValid;
+                hasNextComputed = false;
+                nextValid = null;
+                return result;
+            }
+        };
     }
 
     /**

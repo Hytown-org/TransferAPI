@@ -23,7 +23,8 @@ import dev.hytalemodding.api.transfer.v1.storage.StoragePreconditions;
 import dev.hytalemodding.api.transfer.v1.storage.TransferVariant;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
 import dev.hytalemodding.api.transfer.v1.transaction.base.SnapshotParticipant;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * A storage that can store a single transfer variant at any given time.
@@ -92,7 +93,7 @@ public abstract class SingleVariantStorage<T extends TransferVariant<?>> extends
 	}
 
 	@Override
-	public long insert(T insertedVariant, long maxAmount, @NotNull TransactionContext transaction) {
+	public long insert(T insertedVariant, long maxAmount, @Nonnull TransactionContext transaction) {
 		StoragePreconditions.notBlankNotNegative(insertedVariant, maxAmount);
 
 		if ((variant.isBlank() || insertedVariant.equals(variant)) && canInsert(insertedVariant)) {
@@ -116,7 +117,7 @@ public abstract class SingleVariantStorage<T extends TransferVariant<?>> extends
 	}
 
 	@Override
-	public long extract(T extractedVariant, long maxAmount, @NotNull TransactionContext transaction) {
+	public long extract(T extractedVariant, long maxAmount, @Nonnull TransactionContext transaction) {
 		StoragePreconditions.notBlankNotNegative(extractedVariant, maxAmount);
 
 		if (!variant.isBlank() && extractedVariant.equals(variant) && canExtract(extractedVariant)) {
@@ -158,12 +159,12 @@ public abstract class SingleVariantStorage<T extends TransferVariant<?>> extends
 	}
 
 	@Override
-	protected @NotNull ResourceAmount<T> createSnapshot() {
+	protected @Nonnull ResourceAmount<T> createSnapshot() {
 		return new ResourceAmount<>(variant, amount);
 	}
 
 	@Override
-	protected void readSnapshot(@NotNull ResourceAmount<T> snapshot) {
+	protected void readSnapshot(@Nonnull ResourceAmount<T> snapshot) {
 		variant = snapshot.resource();
 		amount = snapshot.amount();
 	}

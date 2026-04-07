@@ -19,14 +19,13 @@
 
 package dev.hytalemodding.api.transfer.v1.transaction;
 
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * A subset of a {@link Transaction} that lets participants properly take part in transactions, manage their state,
  * or open nested transactions, but does not allow them to close the transaction they are passed.
  */
-@ApiStatus.NonExtendable
 public interface TransactionContext {
 	/**
 	 * Open a new nested transaction.
@@ -82,7 +81,7 @@ public interface TransactionContext {
 		 *                    (accessed through {@link #getOpenTransaction} for lower nesting depths).
 		 * @param result The result of this transaction: whether it was committed or aborted.
 		 */
-		void onClose(@NotNull TransactionContext transaction, Result result);
+		void onClose(@Nonnull TransactionContext transaction, Result result);
 	}
 
 	/**

@@ -4,7 +4,8 @@ import dev.hytalemodding.api.transfer.v1.storage.Storage;
 import dev.hytalemodding.api.transfer.v1.storage.StorageView;
 import dev.hytalemodding.api.transfer.v1.transaction.Transaction;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
-import org.jspecify.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public final class TestStorageUtil {
     public static <T> long insert(Storage<T> storage, T resource, long maxAmount) {

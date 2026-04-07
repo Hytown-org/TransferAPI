@@ -25,16 +25,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicLong;
-
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import dev.hytalemodding.api.transfer.v1.storage.SlottedStorage;
 import dev.hytalemodding.api.transfer.v1.storage.Storage;
 import dev.hytalemodding.api.transfer.v1.storage.StorageView;
 import dev.hytalemodding.api.transfer.v1.storage.base.SingleSlotStorage;
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
+
+import javax.annotation.Nonnull;
 
 /**
  * Implementation helpers for the transfer API.
@@ -44,7 +43,7 @@ import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
  */
 public class TransferApiImpl {
     /** Logger for transfer API implementation internals. */
-    public static final Logger LOGGER = LoggerFactory.getLogger("transfer-api-v1");
+    public static final Logger LOGGER = Logger.getLogger("transfer-api-v1");
     /** Monotonic version counter used by internal storages. */
     public static final AtomicLong version = new AtomicLong();
 
@@ -59,7 +58,7 @@ public class TransferApiImpl {
         }
 
         @Override
-        public long insert(Object resource, long maxAmount, @NotNull TransactionContext transaction) {
+        public long insert(Object resource, long maxAmount, @Nonnull  TransactionContext transaction) {
             return 0;
         }
 
@@ -69,12 +68,12 @@ public class TransferApiImpl {
         }
 
         @Override
-        public long extract(Object resource, long maxAmount, @NotNull TransactionContext transaction) {
+        public long extract(Object resource, long maxAmount, @Nonnull TransactionContext transaction) {
             return 0;
         }
 
         @Override
-        public @NotNull Iterator<StorageView> iterator() {
+        public @Nonnull Iterator<StorageView> iterator() {
             return Collections.emptyIterator();
         }
 

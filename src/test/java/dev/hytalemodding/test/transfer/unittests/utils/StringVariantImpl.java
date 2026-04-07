@@ -1,7 +1,6 @@
 package dev.hytalemodding.test.transfer.unittests.utils;
 
-import org.jetbrains.annotations.Nullable;
-
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class StringVariantImpl implements StringVariant {

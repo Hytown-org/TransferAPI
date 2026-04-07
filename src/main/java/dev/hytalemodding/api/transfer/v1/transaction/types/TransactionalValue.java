@@ -2,7 +2,8 @@ package dev.hytalemodding.api.transfer.v1.transaction.types;
 
 import dev.hytalemodding.api.transfer.v1.transaction.TransactionContext;
 import dev.hytalemodding.api.transfer.v1.transaction.base.SnapshotParticipant;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * Helper class that implements a simple transactional value.
@@ -12,14 +13,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public class TransactionalValue<T> extends SnapshotParticipant<T> {
     /** The current value stored by this transactional value. */
-    protected @NotNull T value;
+    protected @Nonnull T value;
 
     /**
      * Create a new transactional value with the provided starting value.
      *
      * @param startingValue The initial stored value.
      */
-    public TransactionalValue(@NotNull T startingValue) {
+    public TransactionalValue(@Nonnull T startingValue) {
         this.value = startingValue;
     }
 
@@ -27,7 +28,7 @@ public class TransactionalValue<T> extends SnapshotParticipant<T> {
      * Fetches the current stored value.
      * @return The current value.
      */
-    public @NotNull T getValue() {
+    public @Nonnull T getValue() {
         return this.value;
     }
 
@@ -36,19 +37,19 @@ public class TransactionalValue<T> extends SnapshotParticipant<T> {
      * @param newValue The new value to store.
      * @param transaction Transaction to use.
      */
-    public void assignValue(@NotNull T newValue, @NotNull TransactionContext transaction) {
+    public void assignValue(@Nonnull T newValue, @Nonnull TransactionContext transaction) {
         updateSnapshots(transaction);
         value = newValue;
     }
 
     @Override
-    protected @NotNull T createSnapshot() {
+    protected @Nonnull T createSnapshot() {
         // Since we are using reference types, cloning isn't necessary
         return value;
     }
 
     @Override
-    protected void readSnapshot(@NotNull T snapshot) {
+    protected void readSnapshot(@Nonnull T snapshot) {
         value = snapshot;
     }
 }

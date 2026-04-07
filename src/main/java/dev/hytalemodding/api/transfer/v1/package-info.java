@@ -59,7 +59,7 @@
  *
  * <h2>Item transfer</h2>
  * A {@code Storage<ItemVariant>} is any object that can store items.
- * Instances can be accessed through the API lookup defined in {@link dev.hytalemodding.api.transfer.v1.item.ItemStorage ItemStorage}.
+ * Instances can be accessed through the API lookup defined in {@link dev.hytalemodding.api.transfer.v1.item.ItemContainerWrapper ItemStorage}.
  *
  * <p>The lookup already provides compatibility with vanilla inventories, however it may sometimes be interesting to use
  * {@link dev.hytalemodding.api.transfer.v1.item.InventoryStorage InventoryStorage} or

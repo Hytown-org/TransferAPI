@@ -216,8 +216,6 @@ public interface Storage<T> extends Iterable<StorageView<T>> {
     default Iterable<StorageView<T>> nonEmptyViews() {
         return this::nonEmptyIterator;
     }
-    
-
 
     /**
      * Return an integer representing the current version of this storage instance to allow for fast change detection:
